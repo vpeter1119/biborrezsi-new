@@ -2,6 +2,7 @@
   <span>Bíborrezsi</span>
   <span class="spacer"></span>
   <a mat-button routerLink="/" (click)="toggleIsLoading()"><mat-icon>login</mat-icon></a>
+  <a mat-button routerLink="/"><mat-icon>code</mat-icon></a>
 </mat-toolbar>
 <mat-progress-bar *ngIf="!isLoading" mode="determinate"></mat-progress-bar>
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>

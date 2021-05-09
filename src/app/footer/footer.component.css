@@ -1,0 +1,14 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  color: #DDD;
+}
+
+.spacer {
+  margin: auto;
+}
+
+.footer-copyright {
+  padding: 1rem;
+  font-weight: 500;
+}
