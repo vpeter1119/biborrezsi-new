@@ -9,6 +9,7 @@ import { Report } from './report.model';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/hu';
 import { LoadingService } from '../common_services/loading.service';
+import { environment } from 'src/environments/environment';
 
 dayjs.locale('hu');
 @Component({
@@ -62,13 +63,13 @@ export class ReportComponent implements OnInit, OnDestroy {
     .subscribe(reports => {
       this.allReports = reports;
       this.oldReport = this.allReports[(this.allReports.length - 1)];
-      console.log('#reportComponent -> ngOnInit() this.oldReport: ',this.oldReport);
+      if (environment.debug) console.log('#reportComponent -> ngOnInit() this.oldReport: ',this.oldReport);
       this.currentReportPeriodIndex = this.oldReport.nr ? this.oldReport.nr+1 : 0;
-      console.log('#reportComponent -> ngOnInit() this.currentReportPeriodIndex: ',this.currentReportPeriodIndex);
+      if (environment.debug) console.log('#reportComponent -> ngOnInit() this.currentReportPeriodIndex: ',this.currentReportPeriodIndex);
       this.currentReportPeriod = this.startingDate.add(this.currentReportPeriodIndex, 'month').format("MMMM, YYYY");
-      console.log('#reportComponent -> ngOnInit() this.startingDate: ',this.startingDate);
-      console.log('#reportComponent -> ngOnInit() this.currentReportPeriod: ',this.currentReportPeriod);
-      console.warn("Report component initiated.");
+      if (environment.debug) console.log('#reportComponent -> ngOnInit() this.startingDate: ',this.startingDate);
+      if (environment.debug) console.log('#reportComponent -> ngOnInit() this.currentReportPeriod: ',this.currentReportPeriod);
+      if (environment.debug) console.warn("Report component initiated.");
       this._loading.switchLoading(false);
     });
   }
@@ -85,17 +86,17 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   onReport() {
     this._loading.switchLoading(true);
-    console.warn('Making POST request to: ' + this.url);
+    if (environment.debug) console.warn('Making POST request to: ' + this.url);
     this.reportService.postReportListener(this.reportForm.value)
     .subscribe(res => {
       if (res) {
-        console.warn(res.message);
+        if (environment.debug) console.warn(res.message);
         this.reportMode = 'finished';
         this._loading.switchLoading(false);
       }
     }, err => {
       if (err) {
-        console.warn(err);
+        if (environment.debug) console.warn(err);
         this._loading.switchLoading(false);
       }
     });
@@ -120,9 +121,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       heat: heatDiff,
       elec: (this.reportForm.value.elec - (this.oldReport.elec || 0)),
     }
-    console.log('#reportComponent -> calculateDiff() this.diffData: ', this.diffData);
+    if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffData: ', this.diffData);
     if (this.diffData.cold != undefined && this.diffData.cold >= 0) {
-      console.log('#reportComponent -> calculateDiff() this.diffIsValid: ', this.diffIsValid);
+      if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffIsValid: ', this.diffIsValid);
       this.diffIsValid = true;
     }
   }

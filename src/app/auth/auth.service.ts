@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from "rxjs";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Subject } from "rxjs";
 export class AuthService {
 
   // Variables
-  apiUrl = 'https://petervertesi.com/dev-server/api/';
+  apiUrl = environment.apiUrl;
   
   private token: string = '';
   private tokenTimer: any;
@@ -51,7 +52,7 @@ export class AuthService {
     .subscribe(response => {
       if (response.token) {
         //Handle successful login attempt
-        console.warn("Succesful login attempt.");
+        if (environment.debug) console.warn("Succesful login attempt.");
         this.token = response.token;
         const expiresInDuration = response.expiresIn;
         this.setAuthTimer(expiresInDuration);
@@ -61,14 +62,14 @@ export class AuthService {
         const expirationDate = new Date(now.getTime() + expiresInDuration * 100000);
         this.saveAuthData(this.token, expirationDate);
         this._router.navigate(["report"]);
-        //console.warn("Auth service login() returning true.");
-        //return true;
+        ////console.warn("Auth service login() returning true.");
+        ////return true;
       }
     }, error => {
       //Handle failed login attempt
       if (error) {
-        console.warn("Failed login attempt.");
-        console.warn(error);
+        if (environment.debug) console.warn("Failed login attempt.");
+        if (environment.debug) console.warn(error);
         if (error.error != null) {
           this.errorMessage = error.error.message;
         } else {
@@ -79,9 +80,9 @@ export class AuthService {
         this.authStatus = false;
         this.authStatusListener.next(false);
         window.alert(this.errorMessage);
-        //this._router.navigate(["auth"]);
-        //console.warn("Auth service login() returning false.");
-        //return false;
+        ////this._router.navigate(["auth"]);
+        ////console.warn("Auth service login() returning false.");
+        ////return false;
       }
     });
   }
@@ -95,26 +96,26 @@ export class AuthService {
     this._router.navigate(["login"]);
   }
 
-  //Set the authentication timer
+  // Set the authentication timer
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
   }
 
-  //Save authentication data to local storage
+  // Save authentication data to local storage
   private saveAuthData(token: string, expirationDate: Date) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
   }
 
-  //Clear authentication data from local storage
+  // Clear authentication data from local storage
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
   }
 
-  //Read authentication data from local storage
+  // Read authentication data from local storage
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");

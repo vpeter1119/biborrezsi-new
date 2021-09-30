@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Subject} from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadingService {
-  apiUrl = 'https://petervertesi.com/dev-server/api/';
+  apiUrl = environment.apiUrl;
 
   isLoading: boolean = true;
   loadingStatusListener = new Subject<boolean>();
@@ -35,17 +36,17 @@ export class LoadingService {
     this._http.get<{running:boolean}>(url)
     .subscribe(status => {
       if (status.running == true) {
-        console.warn(status);
-        console.warn("Server is up.");
+        if (environment.debug) console.warn(status);
+        if (environment.debug) console.warn("Server is up.");
         this.serverIsUp = status.running;
         this.serverStatusListener.next(this.serverIsUp);
       } else {
-        console.warn(status);
+        if (environment.debug) console.warn(status);
         this.serverIsUp = false;
         this.serverStatusListener.next(this.serverIsUp);
       }
     }, error => {
-      console.warn(error);
+      if (environment.debug) console.warn(error);
       this.serverIsUp = false;
       this.serverStatusListener.next(this.serverIsUp);
       //in this case, we should also disable the frontend functions and display a message that server is down
