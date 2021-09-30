@@ -16,6 +16,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoginComponent } from './auth/login/login.component';
     ToolbarComponent,
     FooterComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
