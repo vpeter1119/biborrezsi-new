@@ -7,7 +7,7 @@ import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
 ];
