@@ -1,3 +1,9 @@
+.main-title:hover {
+    cursor: pointer;
+}
 .spacer {
     margin: auto;
+}
+mat-progress-bar {
+    height: 0.5rem;
 }

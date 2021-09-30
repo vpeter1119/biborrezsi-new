@@ -1,0 +1,16 @@
+mat-card {
+    width: 350px;
+    background-color: #f5fcc1;
+}
+
+.button-send {
+    margin-top: 1rem;
+}
+
+.button-prev {
+    margin-left: 1rem;
+}
+
+mat-form-field {
+    display: inline-block;
+}
