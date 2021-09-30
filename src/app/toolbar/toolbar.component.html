@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span class="main-title" routerLink="/" matTooltip="Főoldal">Bíbor Rezsi</span>
   <span class="spacer"></span>
-  <button mat-button routerLink="/" (click)="toggleIsLoading()" matTooltip="Bejelentkezés"><mat-icon>login</mat-icon></button>
+  <button mat-button routerLink="/login" matTooltip="Bejelentkezés"><mat-icon>login</mat-icon></button>
   <button mat-button href="https://github.com/vpeter1119/biborrezsi-new" target="_blank" noopener noreferrer matTooltip="Forráskód (GitHub)"><mat-icon>code</mat-icon></button>
 </mat-toolbar>
 <mat-progress-bar *ngIf="!isLoading" mode="determinate"></mat-progress-bar>

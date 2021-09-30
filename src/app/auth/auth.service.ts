@@ -92,7 +92,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this._router.navigate(["auth"]);
+    this._router.navigate(["login"]);
   }
 
   //Set the authentication timer
@@ -118,7 +118,7 @@ export class AuthService {
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
-    if (!token || !expirationDate) {
+    if (!token || token == '' || !expirationDate) {
       return;
     }
     return {
