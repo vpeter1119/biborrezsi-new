@@ -21,13 +21,15 @@
                   ngModel
                   required
                   autofocus
-                  #password="ngModel">
+                  #password="ngModel"
+                  [disabled]="isLoading">
                 </mat-form-field>
                 <br>
                 <button 
                 mat-raised-button
                 color="accent"
-                type="submit">Küldés</button>
+                type="submit"
+                [disabled]="isLoading">Küldés</button>
               </form>
             </mat-card-content>          
           </mat-card>

@@ -1,4 +1,4 @@
-export interface Report {
+export interface Report extends Record<string, any> {
     isApproved: boolean,
     cold: number,
     hot: number,

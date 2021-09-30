@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { Report } from './report.model';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/hu';
+import { LoadingService } from '../common_services/loading.service';
 
 dayjs.locale('hu');
 @Component({
@@ -27,18 +28,19 @@ export class ReportComponent implements OnInit, OnDestroy {
   diffData: Partial<Report> = {};
   diffIsValid: boolean = false;
   icons = {};
-  // TODO: convert to dayjs
-  ////startingDate = moment([2019,7]);
   startingDate = dayjs(new Date(2019, 7));
   currentReportPeriodIndex: number = 0;
   currentReportPeriod: string = "";
+  isLoading: boolean = false;
+  loadingSub: Subscription = new Subscription();
 
   constructor(
     public _router: Router,
     private authService: AuthService,
     private reportService: ReportService,
     private _http: HttpClient,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _loading: LoadingService
   ) { }
 
   reportForm = this._fb.group({
@@ -50,7 +52,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    ////this._loading.switchLoading(true);
+    this.loadingSub = this._loading.getLoadingStatus()
+    .subscribe(status => {
+      this.isLoading = status;
+    });
+    this._loading.switchLoading(true);
     this.authenticated = this.authService.authStatus;
     this.allReportsSub = this.reportService.getAllReportsListener()
     .subscribe(reports => {
@@ -59,13 +65,11 @@ export class ReportComponent implements OnInit, OnDestroy {
       console.log('#reportComponent -> ngOnInit() this.oldReport: ',this.oldReport);
       this.currentReportPeriodIndex = this.oldReport.nr ? this.oldReport.nr+1 : 0;
       console.log('#reportComponent -> ngOnInit() this.currentReportPeriodIndex: ',this.currentReportPeriodIndex);
-      // TODO: convert to dayjs
-      ////this.currentReportPeriod = this.startingDate.add(this.currentReportPeriodIndex, 'months').format("MMMM, YYYY");
       this.currentReportPeriod = this.startingDate.add(this.currentReportPeriodIndex, 'month').format("MMMM, YYYY");
       console.log('#reportComponent -> ngOnInit() this.startingDate: ',this.startingDate);
       console.log('#reportComponent -> ngOnInit() this.currentReportPeriod: ',this.currentReportPeriod);
       console.warn("Report component initiated.");
-      ////this._loading.switchLoading(false);
+      this._loading.switchLoading(false);
     });
   }
 
@@ -80,19 +84,19 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   onReport() {
-    ////this._loading.switchLoading(true);
+    this._loading.switchLoading(true);
     console.warn('Making POST request to: ' + this.url);
     this.reportService.postReportListener(this.reportForm.value)
     .subscribe(res => {
       if (res) {
         console.warn(res.message);
         this.reportMode = 'finished';
-        ////this._loading.switchLoading(false);
+        this._loading.switchLoading(false);
       }
     }, err => {
       if (err) {
         console.warn(err);
-        ////this._loading.switchLoading(false);
+        this._loading.switchLoading(false);
       }
     });
   }
@@ -116,8 +120,19 @@ export class ReportComponent implements OnInit, OnDestroy {
       heat: heatDiff,
       elec: (this.reportForm.value.elec - (this.oldReport.elec || 0)),
     }
-    if (this.diffData.cold && this.diffData.cold >= 0) {
+    console.log('#reportComponent -> calculateDiff() this.diffData: ', this.diffData);
+    if (this.diffData.cold != undefined && this.diffData.cold >= 0) {
+      console.log('#reportComponent -> calculateDiff() this.diffIsValid: ', this.diffIsValid);
       this.diffIsValid = true;
+    }
+  }
+
+  applyPrevious(field: string): boolean {
+    if (!this.oldReport[field]) {
+      return false;
+    } else {
+      this.reportForm.controls[field].setValue(this.oldReport[field]);
+      return true;
     }
   }
 

@@ -35,8 +35,18 @@
                   step="0.01"
                   autocomplete="off"
                   formControlName="cold"
-                  autofocus>
-                </mat-form-field>              
+                  autofocus
+                  [disabled]="isLoading">
+                </mat-form-field>
+                <button 
+                mat-mini-fab
+                color="primary"
+                class="button-prev"
+                (click)="applyPrevious('cold')"
+                [disabled]="isLoading"
+                matTooltip="Előző havi érték beírása">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>           
                 <mat-form-field class="">
                   <input 
                   matInput
@@ -48,8 +58,18 @@
                   max="100"
                   step="0.01"
                   autocomplete="off"
-                  formControlName="hot">                
+                  formControlName="hot"
+                  [disabled]="isLoading">                
                 </mat-form-field>
+                <button 
+                mat-mini-fab
+                color="primary"
+                class="button-prev"
+                (click)="applyPrevious('hot')"
+                [disabled]="isLoading"
+                matTooltip="Előző havi érték beírása">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>   
                 <mat-form-field class="">
                   <input
                   matInput
@@ -59,8 +79,19 @@
                   min="0"
                   max="10000"
                   autocomplete="off"
-                  formControlName="heat">
-                </mat-form-field><span #tooltip="matTooltip" matTooltip="Ha változatlan, hagyd üresen, vagy írj be nullát!" (click)="tooltip.toggle()"> <mat-icon>info</mat-icon></span>
+                  formControlName="heat"
+                  [disabled]="isLoading">
+                </mat-form-field>
+                <button 
+                mat-mini-fab
+                color="primary"
+                class="button-prev"
+                (click)="applyPrevious('heat')"
+                [disabled]="isLoading"
+                matTooltip="Előző havi érték beírása">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>   
+                <!-- <span #tooltip="matTooltip" matTooltip="Ha változatlan, hagyd üresen, vagy írj be nullát!" (click)="tooltip.toggle()"> <mat-icon>info</mat-icon></span> -->
                 <mat-form-field class="">
                   <input
                   matInput
@@ -71,15 +102,25 @@
                   min="0"
                   max="10000"
                   autocomplete="off"
-                  formControlName="elec">
+                  formControlName="elec"
+                  [disabled]="isLoading">
                 </mat-form-field>
+                <button 
+                mat-mini-fab
+                color="primary"
+                class="button-prev"
+                (click)="applyPrevious('elec')"
+                [disabled]="isLoading"
+                matTooltip="Előző havi érték beírása">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>   
                 <br>
                 <button 
                 mat-raised-button
                 color="accent"
                 class="button-send"
                 (click)="onSubmit()"
-                [disabled]="!reportForm.valid">
+                [disabled]="!reportForm.valid || isLoading">
                   Tovább
                 </button>
               </form>
@@ -87,10 +128,10 @@
             <mat-card-content *ngIf="reportMode=='confirm'">
               <table class="confirm-table">
                 <tr>
-                  <td>Hidegvíz: {{ reportForm.value.cold }} (fogyasztás: {{ diffData.cold }})</td>
+                  <td>Hidegvíz: {{ reportForm.value.cold }} (fogyasztás: {{ diffData.cold | number: '1.0-3' }})</td>
                 </tr>
                 <tr>
-                  <td>Melegvíz: {{ reportForm.value.hot }} (fogyasztás: {{ diffData.hot }})</td>
+                  <td>Melegvíz: {{ reportForm.value.hot }} (fogyasztás: {{ diffData.hot | number: '1.0-3' }})</td>
                 </tr>
                 <tr>
                   <td>Hőmennyiség: {{ reportForm.value.heat }} (fogyasztás: {{ diffData.heat }})</td>
@@ -108,10 +149,18 @@
               (click)="resetAll()">Vissza</button>
             </mat-card-content>
             <mat-card-actions *ngIf="reportMode=='confirm'">
-              <button mat-raised-button color="primary"
-              (click)="onReport()" [disabled]="!diffIsValid">Küldés</button>
-              <button mat-raised-button color="accent"
-              (click)="reportMode='input'">Szerkesztés</button>
+              <button
+              mat-raised-button
+              color="primary"
+              (click)="onReport()"
+              [disabled]="!diffIsValid || isLoading">
+                Küldés
+              </button>
+              <button 
+              mat-raised-button 
+              color="accent"
+              (click)="reportMode='input'"
+              [disabled]="isLoading">Szerkesztés</button>
             </mat-card-actions>
           </mat-card>
         </div>
