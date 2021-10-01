@@ -75,7 +75,8 @@
                   placeholder="Hőmennyiség"
                   type="number"
                   min="0"
-                  max="10000"
+                  max="100000"
+                  step="1"
                   autocomplete="off"
                   formControlName="heat">
                 </mat-form-field>
@@ -146,6 +147,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
               </table>
+              <mat-error *ngIf="!diffIsValid">A fenti fogyasztási adatok érvénytelenek. Kérlek, ellenőrizd a bevitt óraállásokat, kattints a Szerkesztés gombra, majd javítsd a hibás adatokat!</mat-error>
             </mat-card-content>
             <mat-card-content *ngIf="reportMode=='finished'">
               <p>Óraállások elküldve!</p>

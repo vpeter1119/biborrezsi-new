@@ -86,6 +86,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.newReport = this.reportForm.value;
     this.valiDateFormData();
     this.calculateDiff();
+    this.dataSource = [];
     this.dataSource.push({
       name: 'Hidegvíz',
       value: this.reportForm.value.cold,
@@ -148,7 +149,12 @@ export class ReportComponent implements OnInit, OnDestroy {
       elec: (this.reportForm.value.elec - (this.oldReport.elec || 0)),
     }
     if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffData: ', this.diffData);
-    if (this.diffData.cold != undefined && this.diffData.cold >= 0) {
+    let validateConditions = 
+      (this.diffData.cold != undefined && this.diffData.cold >= 0)
+      && (this.diffData.hot != undefined && this.diffData.hot >= 0)
+      && (this.diffData.elec != undefined && this.diffData.elec >= 0)
+      ;
+    if (validateConditions) {
       if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffIsValid: ', this.diffIsValid);
       this.diffIsValid = true;
     }
