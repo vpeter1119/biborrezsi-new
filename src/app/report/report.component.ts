@@ -137,7 +137,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       return true;
     }
   }
-
+  
   valiDateFormData(): void {
     var currentValues = {
       cold: this.reportForm.controls['cold'].value,
@@ -162,5 +162,5 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.reportForm.controls['elec'].setValue(String(currentValues.elec).slice(0, -1));
     }
   }
-
+  
 }
