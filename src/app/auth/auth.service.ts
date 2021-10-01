@@ -44,47 +44,48 @@ export class AuthService {
     return this.errorMessageListener.asObservable();
   }
 
-  login(username: string, password: string) {
-    this.logout();
-    const authData = {username: username, pw: password};
-    const url = (this.apiUrl + "auth/login");
-    this._http.post<{token: string, expiresIn: number, message: string, errcode: string}>(url, authData)
-    .subscribe(response => {
-      if (response.token) {
-        //Handle successful login attempt
-        if (environment.debug) console.warn("Succesful login attempt.");
-        this.token = response.token;
-        const expiresInDuration = response.expiresIn;
-        this.setAuthTimer(expiresInDuration);
-        this.authStatus = true;
-        this.authStatusListener.next(true);
-        const now = new Date();
-        const expirationDate = new Date(now.getTime() + expiresInDuration * 100000);
-        this.saveAuthData(this.token, expirationDate);
-        this._router.navigate(["report"]);
-        ////console.warn("Auth service login() returning true.");
-        ////return true;
-      }
-    }, error => {
-      //Handle failed login attempt
-      if (error) {
-        if (environment.debug) console.warn("Failed login attempt.");
-        if (environment.debug) console.warn(error);
-        if (error.error != null) {
+  login(username: string, password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+
+      this.logout();
+      const authData = {username: username, pw: password};
+      const url = (this.apiUrl + "auth/login");
+      this._http.post<{token: string, expiresIn: number, message: string, errcode: string}>(url, authData)
+      .subscribe(response => {
+        if (response.token) {
+          //Handle successful login attempt
+          if (environment.debug) console.warn("Succesful login attempt.");
+          this.token = response.token;
+          const expiresInDuration = response.expiresIn;
+          this.setAuthTimer(expiresInDuration);
+          this.authStatus = true;
+          this.authStatusListener.next(true);
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + expiresInDuration * 100000);
+          this.saveAuthData(this.token, expirationDate);
+          this._router.navigate(["report"]);
+          resolve(true);
+        }
+      }, error => {
+        //Handle failed login attempt
+        if (error) {
+          if (environment.debug) console.warn("Failed login attempt.");
+          if (environment.debug) console.warn(error);
+          if (error.error != null) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = error.statusText;
+          }        
           this.errorMessage = error.error.message;
-        } else {
-          this.errorMessage = error.statusText;
-        }        
-        this.errorMessage = error.error.message;
-        this.errorMessageListener.next(this.errorMessage);      
-        this.authStatus = false;
-        this.authStatusListener.next(false);
-        window.alert(this.errorMessage);
-        ////this._router.navigate(["auth"]);
-        ////console.warn("Auth service login() returning false.");
-        ////return false;
-      }
-    });
+          this.errorMessageListener.next(this.errorMessage);      
+          this.authStatus = false;
+          this.authStatusListener.next(false);
+          window.alert(this.errorMessage);
+          resolve(false);
+        }
+      });
+
+    })
   }
 
   logout() {
