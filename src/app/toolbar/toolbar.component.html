@@ -2,7 +2,7 @@
   <span class="main-title" routerLink="/" matTooltip="Főoldal">Bíbor Rezsi</span>
   <span class="spacer"></span>
   <button mat-button routerLink="/report" matTooltip="Új Jelentés" *ngIf="isAuth()"><mat-icon>add</mat-icon></button>
-  <button mat-button routerLink="/statistics" matTooltip="Statisztikák" *ngIf="isAuth()"><mat-icon>show_chart</mat-icon></button>
+  <button mat-button routerLink="/statistics" matTooltip="Statisztikák" *ngIf="isAuth()"><mat-icon>bar_chart</mat-icon></button>
   <button mat-button routerLink="/login" matTooltip="Bejelentkezés" *ngIf="!isAuth()"><mat-icon>login</mat-icon></button>
   <button mat-button (click)="logout()" matTooltip="Kijelentkezés" *ngIf="isAuth()"><mat-icon>logout</mat-icon></button>
   <a mat-button href="https://github.com/vpeter1119/biborrezsi-new" target="_blank" noopener noreferrer matTooltip="Forráskód (GitHub)"><mat-icon>code</mat-icon></a>
