@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (environment.debug) console.log('#loginComponent -> onLogin() -> loginOk: ', loginOk);
         if (loginOk) {
           if (environment.debug) console.warn("Login OK.");
-          this._router.navigate(["report"]);
+          this._router.navigate(["home"]);
         } else {
           if (environment.debug) console.warn("Login failed.");
           this._loading.switchLoading(false);

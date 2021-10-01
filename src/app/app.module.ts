@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Services
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -18,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ReportComponent } from './report/report.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -26,12 +29,15 @@ import { ReportComponent } from './report/report.component';
     FooterComponent,
     HomeComponent,
     LoginComponent,
-    ReportComponent
+    ReportComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxChartsModule,
+    FlexLayoutModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
