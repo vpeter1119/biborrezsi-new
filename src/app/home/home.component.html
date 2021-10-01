@@ -1,14 +1,14 @@
-<div class="reports" *ngIf="!isLoading">
-    <h2>Fogyasztási Történet</h2>
-    <mat-card class="report-card">
+<div class="reports-container" *ngIf="!isLoading" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center stretch">
+    <h2>Fogyasztás Történet</h2>
+    <mat-card class="report-card" *ngFor="let chart of dataToDisplay; let i = index">
         <mat-card-header>
-            <h3>Vízórák</h3>
+            <h3>{{chartTitles[i]}}</h3>
         </mat-card-header>
         <mat-card-content>
             <div class="chart">
                 <ngx-charts-line-chart
                 [view]="view"
-                [scheme]="colorScheme01"
+                [scheme]="colorSchemes[i]"
                 [legend]="legend"
                 [showXAxisLabel]="showXAxisLabel"
                 [showYAxisLabel]="showYAxisLabel"
@@ -17,7 +17,7 @@
                 [xAxisLabel]="xAxisLabel"
                 [yAxisLabel]="yAxisLabel"
                 [timeline]="timeline"
-                [results]="dataToDisplay[0]"
+                [results]="chart"
                 (select)="onSelect($event)"
                 (activate)="onActivate($event)"
                 (deactivate)="onDeactivate($event)">

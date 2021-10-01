@@ -40,15 +40,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   xAxisLabel: string = 'Hónap';
   yAxisLabel: string = 'Óraállás';
   timeline: boolean = true;
-  colorScheme01 = {
-    domain: ['#5C7AEA', '#D57E7E']
-  };
-  colorScheme02 = {
+  colorSchemes = [{
+    domain: ['#5C7AEA', '#FF0000']
+  },
+  {
     domain: ['#C36839']
-  };
-  colorScheme03 = {
+  },
+  {
     domain: ['#1C0C5B']
-  };
+  }];
+  chartTitles = ["Vízórák", "Hőmennyiség", "Villanyóra"]
 
   constructor(
     private reportService: ReportService,
