@@ -37,14 +37,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this._loading.switchLoading(true);
       var loginCompleted = new Promise((resolve, reject) => {
-        this.authService.login("user", form.value.password);
-        setTimeout(()=>{
-          var loginOk = this.authService.getAuthStatus();
-          if (environment.debug) console.warn(loginOk);
-          resolve(loginOk);
-        },1000);
+        this.authService.login("user", form.value.password)
+        .then(success => {
+          resolve(success);
+        });
       });
+      if (environment.debug) console.log('#loginComponent -> onLogin() -> loginCompleted: ', loginCompleted);
       loginCompleted.then(loginOk => {
+        if (environment.debug) console.log('#loginComponent -> onLogin() -> loginOk: ', loginOk);
         if (loginOk) {
           if (environment.debug) console.warn("Login OK.");
           this._router.navigate(["report"]);

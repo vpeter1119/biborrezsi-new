@@ -3,7 +3,7 @@
   <span class="spacer"></span>
   <button mat-button routerLink="/login" matTooltip="Bejelentkezés" *ngIf="!isAuth()"><mat-icon>login</mat-icon></button>
   <button mat-button (click)="logout()" matTooltip="Kijelentkezés" *ngIf="isAuth()"><mat-icon>logout</mat-icon></button>
-  <button mat-button href="https://github.com/vpeter1119/biborrezsi-new" target="_blank" noopener noreferrer matTooltip="Forráskód (GitHub)"><mat-icon>code</mat-icon></button>
+  <a mat-button href="https://github.com/vpeter1119/biborrezsi-new" target="_blank" noopener noreferrer matTooltip="Forráskód (GitHub)"><mat-icon>code</mat-icon></a>
 </mat-toolbar>
 <mat-progress-bar *ngIf="!isLoading" mode="determinate"></mat-progress-bar>
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
