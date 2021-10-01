@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Services
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -34,6 +35,7 @@ import { ReportComponent } from './report/report.component';
     FormsModule,
     ReactiveFormsModule,
     NgxChartsModule,
+    FlexLayoutModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
