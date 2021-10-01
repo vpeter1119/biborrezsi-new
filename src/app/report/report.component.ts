@@ -45,11 +45,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   ) { }
 
   reportForm = this._fb.group({
-    cold: [null,Validators.required],
-    hot: [null, Validators.required],
-    heat: [null],
-    elec: [null, Validators.required],
-    isHeating: [false,Validators.required],
+    cold: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    hot: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    heat: [{value: null, disabled: this.isLoading}],
+    elec: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    isHeating: [{value: false, disabled: this.isLoading}, [Validators.required]],
   });
 
   ngOnInit(): void {
