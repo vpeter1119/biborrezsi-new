@@ -80,6 +80,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.newReport = this.reportForm.value;
+    this.valiDateFormData();
     this.calculateDiff();
     this.reportMode = 'confirm';
   }
@@ -134,6 +135,31 @@ export class ReportComponent implements OnInit, OnDestroy {
     } else {
       this.reportForm.controls[field].setValue(this.oldReport[field]);
       return true;
+    }
+  }
+
+  valiDateFormData(): void {
+    var currentValues = {
+      cold: this.reportForm.controls['cold'].value,
+      hot: this.reportForm.controls['hot'].value,
+      heat: this.reportForm.controls['heat'].value,
+      elec: this.reportForm.controls['elec'].value,
+    };
+    // Cold
+    if (this.oldReport.cold && (currentValues.cold > (this.oldReport.cold * 10))) {
+      this.reportForm.controls['cold'].setValue(currentValues.cold * 0.001);
+    }
+    // Hot
+    if (this.oldReport.hot && (currentValues.hot > (this.oldReport.hot * 10))) {
+      this.reportForm.controls['hot'].setValue(currentValues.hot * 0.001);
+    }
+    // Heat
+    if (this.oldReport.heat && (currentValues.heat < (this.oldReport.heat * 0.1))) {
+      this.reportForm.controls['heat'].setValue(currentValues.heat * 1000);
+    }
+    // Elec
+    if (this.oldReport.elec && (currentValues.elec > (this.oldReport.elec * 10))) {
+      this.reportForm.controls['elec'].setValue(String(currentValues.elec).slice(0, -1));
     }
   }
 
