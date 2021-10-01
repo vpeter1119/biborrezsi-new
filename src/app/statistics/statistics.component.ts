@@ -6,6 +6,7 @@ import { LoadingService } from '../common_services/loading.service';
 import { Report } from '../report/report.model';
 import { ReportService } from '../report/report.service';
 import { ChartData } from './chart-data.model';
+import { Color} from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-statistics',
@@ -22,14 +23,14 @@ export class StatisticsComponent implements OnInit {
   startingDate = dayjs(new Date(2019,7));
 
   // Chart Data
-  dataToDisplay = {};
+  dataToDisplay: Array<ChartData[]> = [];
   coldData: ChartData[];
   hotData: ChartData[];
   heatData: ChartData[];
   elecData: ChartData[];
 
   // Chart Settings
-  view: any[] = [700, 300];
+  view: [number,number] = [700, 300];
   legend: boolean = true;
   showLabels: boolean = true;
   animations: boolean = true;
@@ -40,7 +41,7 @@ export class StatisticsComponent implements OnInit {
   xAxisLabel: string = 'Hónap';
   yAxisLabel: string = 'Óraállás';
   timeline: boolean = true;
-  colorSchemes = [{
+  colorSchemes: any[] = [{
     domain: ['#5C7AEA', '#FF0000']
   },
   {
