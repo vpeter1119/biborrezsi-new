@@ -16,7 +16,7 @@
               <mat-card-title>
                 Havi Óraállások
               </mat-card-title>
-              <mat-card-subtitle>Jelentési időszak: {{currentReportPeriod}}</mat-card-subtitle>
+              <mat-card-subtitle *ngIf="!isLoading">Jelentési időszak: {{currentReportPeriod}}</mat-card-subtitle>
               <mat-card-subtitle *ngIf="reportMode=='confirm'">
                 Kérlek, ellenőrizd a megadott adatokat!
               </mat-card-subtitle>
