@@ -137,16 +137,4 @@ export class StatisticsComponent implements OnInit {
     this.loadingSub.unsubscribe();
   }
 
-  onSelect(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
-
 }
