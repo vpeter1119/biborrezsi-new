@@ -11,8 +11,7 @@
             <mat-card-content>
               <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
                 <mat-form-field class="">
-                  <!-- <mat-error *ngIf="wrongPassword">Helytelen jelszó!</mat-error>
-                  <mat-error *ngIf="password.invalid">Kérlek, írj be egy jelszót!</mat-error> -->
+                  <mat-error *ngIf="password.invalid">Kérlek, írj be egy jelszót!</mat-error>
                   <input 
                   matInput
                   placeholder="Jelszó"
@@ -22,6 +21,7 @@
                   required
                   autofocus
                   #password="ngModel"
+                  autocomplete="new-password"
                   [disabled]="isLoading">
                 </mat-form-field>
                 <br>
