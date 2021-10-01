@@ -34,6 +34,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   currentReportPeriod: string = "";
   isLoading: boolean = false;
   loadingSub: Subscription = new Subscription();
+  dataSource: Partial<[{name: string, value: number, diff: number}]>;
+  displayedColumns = ['name', 'value', 'diff'];
 
   constructor(
     public _router: Router,
@@ -42,7 +44,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     private _http: HttpClient,
     private _fb: FormBuilder,
     private _loading: LoadingService
-  ) { }
+  ) {
+    this.dataSource = [];
+  }
 
   reportForm = this._fb.group({
     cold: [{value: null, disabled: this.isLoading}, [Validators.required]],
@@ -82,6 +86,27 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.newReport = this.reportForm.value;
     this.valiDateFormData();
     this.calculateDiff();
+    this.dataSource.push({
+      name: 'Hidegvíz',
+      value: this.reportForm.value.cold,
+      diff: this.diffData.cold || 0
+    });
+    this.dataSource.push({
+      name: 'Melegvíz',
+      value: this.reportForm.value.hot,
+      diff: this.diffData.hot || 0
+    });
+    this.dataSource.push({
+      name: 'Hőmennyiség',
+      value: this.reportForm.value.heat,
+      diff: this.diffData.heat || 0
+    });
+    this.dataSource.push({
+      name: 'Villanyóra',
+      value: this.reportForm.value.elec,
+      diff: this.diffData.elec || 0
+    });
+    if (environment.debug) console.log('#reportComponent -> onSubmit() -> this.dataSource: ', this.dataSource);
     this.reportMode = 'confirm';
   }
 
