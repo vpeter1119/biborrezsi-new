@@ -1,1 +1,29 @@
-<p>home works!</p>
+<div class="reports" *ngIf="!isLoading">
+    <h2>Fogyasztási Történet</h2>
+    <mat-card class="report-card">
+        <mat-card-header>
+            <h3>Vízórák</h3>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="chart">
+                <ngx-charts-line-chart
+                [view]="view"
+                [scheme]="colorScheme01"
+                [legend]="legend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxis]="xAxis"
+                [yAxis]="yAxis"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [timeline]="timeline"
+                [results]="dataToDisplay[0]"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)">
+                </ngx-charts-line-chart>
+            </div>
+        </mat-card-content>
+        <mat-card-actions></mat-card-actions>
+    </mat-card>
+</div>
