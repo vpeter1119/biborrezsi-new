@@ -27,6 +27,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(status => {
       this.isLoading = status;
     });
+    // Try auto-login first
+    if (this.authService.tryAutoLogin()) {
+      this._router.navigate(['home']);
+    }
   }
 
   onLogin(form: NgForm) {    
