@@ -88,6 +88,27 @@ export class AuthService {
     })
   }
 
+  tryAutoLogin() {
+    let authData = this.getAuthData();
+    let now = new Date();
+    if (!authData || authData.expirationDate < now) {
+      // No token
+      if (environment.debug) console.log('#authService -> tryAutoLogin -> Auto-login failed');
+      return false;
+    } else {
+      // Token found, apply auth data
+      if (environment.debug) console.log('#authService -> tryAutoLogin -> authData:', authData);
+      if (environment.debug) console.log('#authService -> tryAutoLogin -> Auto-login success');
+      this.token = authData.token;
+      const expiresInDuration = authData.expirationDate.getTime() - now.getTime();
+      if (environment.debug) console.log('#authService -> tryAutoLogin -> expiresInDuration: ', expiresInDuration);;
+      this.setAuthTimer(expiresInDuration);
+      this.authStatus = true;
+      this.authStatusListener.next(true);
+      return true;
+    }
+  }
+
   logout() {
     this.token = '';
     this.authStatus = false;
@@ -121,7 +142,7 @@ export class AuthService {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
     if (!token || token == '' || !expirationDate) {
-      return;
+      return false;
     }
     return {
       token: token,
