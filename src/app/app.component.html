@@ -1,5 +1,7 @@
 <app-toolbar></app-toolbar>
-<div class="main-container">
-    <router-outlet></router-outlet>
+<div class="main-container" fxLayout="row" fxLayoutAlign="center stretch">
+    <div class="content" fxFlex="80%" fxFlex.lt-md="90%" fxFlex.lt-sm="96%">
+        <router-outlet></router-outlet>
+    </div>
 </div>
 <app-footer></app-footer>
