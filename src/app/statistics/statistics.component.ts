@@ -39,7 +39,7 @@ export class StatisticsComponent implements OnInit {
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Hónap';
-  yAxisLabel: string = 'Óraállás';
+  yAxisLabel: string = 'Fogyasztás';
   timeline: boolean = true;
   colorSchemes: any[] = [{
     domain: ['#5C7AEA', '#FF0000']
