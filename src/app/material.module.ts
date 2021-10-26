@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -26,6 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
+    MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
   ],
@@ -40,6 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
+    MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
   ], 

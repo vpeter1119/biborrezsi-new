@@ -34,6 +34,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   currentReportPeriod: string = "";
   isLoading: boolean = false;
   loadingSub: Subscription = new Subscription();
+  dataSource: Partial<[{name: string, value: number, diff: number}]>;
+  displayedColumns = ['name', 'value', 'diff'];
 
   constructor(
     public _router: Router,
@@ -42,14 +44,16 @@ export class ReportComponent implements OnInit, OnDestroy {
     private _http: HttpClient,
     private _fb: FormBuilder,
     private _loading: LoadingService
-  ) { }
+  ) {
+    this.dataSource = [];
+  }
 
   reportForm = this._fb.group({
-    cold: [null,Validators.required],
-    hot: [null, Validators.required],
-    heat: [null],
-    elec: [null, Validators.required],
-    isHeating: [false,Validators.required],
+    cold: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    hot: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    heat: [{value: null, disabled: this.isLoading}],
+    elec: [{value: null, disabled: this.isLoading}, [Validators.required]],
+    isHeating: [{value: false, disabled: this.isLoading}, [Validators.required]],
   });
 
   ngOnInit(): void {
@@ -82,6 +86,28 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.newReport = this.reportForm.value;
     this.valiDateFormData();
     this.calculateDiff();
+    this.dataSource = [];
+    this.dataSource.push({
+      name: 'Hidegvíz',
+      value: this.reportForm.value.cold,
+      diff: this.diffData.cold || 0
+    });
+    this.dataSource.push({
+      name: 'Melegvíz',
+      value: this.reportForm.value.hot,
+      diff: this.diffData.hot || 0
+    });
+    this.dataSource.push({
+      name: 'Hőmennyiség',
+      value: this.reportForm.value.heat,
+      diff: this.diffData.heat || 0
+    });
+    this.dataSource.push({
+      name: 'Villanyóra',
+      value: this.reportForm.value.elec,
+      diff: this.diffData.elec || 0
+    });
+    if (environment.debug) console.log('#reportComponent -> onSubmit() -> this.dataSource: ', this.dataSource);
     this.reportMode = 'confirm';
   }
 
@@ -123,7 +149,12 @@ export class ReportComponent implements OnInit, OnDestroy {
       elec: (this.reportForm.value.elec - (this.oldReport.elec || 0)),
     }
     if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffData: ', this.diffData);
-    if (this.diffData.cold != undefined && this.diffData.cold >= 0) {
+    let validateConditions = 
+      (this.diffData.cold != undefined && this.diffData.cold >= 0)
+      && (this.diffData.hot != undefined && this.diffData.hot >= 0)
+      && (this.diffData.elec != undefined && this.diffData.elec >= 0)
+      ;
+    if (validateConditions) {
       if (environment.debug) console.log('#reportComponent -> calculateDiff() this.diffIsValid: ', this.diffIsValid);
       this.diffIsValid = true;
     }

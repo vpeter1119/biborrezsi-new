@@ -1,5 +1,4 @@
 mat-card {
-    width: 350px;
     background-color: #f5fcc1;
 }
 
@@ -13,4 +12,16 @@ mat-card {
 
 mat-form-field {
     display: inline-block;
+}
+
+.mat-header-row {
+    background-color: #673ab7;
+}
+
+.mat-header-row > th {
+    color: #fff;
+}
+
+.confirm-table {
+    width: 100%;
 }

@@ -1,6 +1,6 @@
-<div class="reports-container" *ngIf="!isLoading" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center stretch">
-    <h2>Fogyasztás Történet</h2>
-    <mat-card class="report-card" *ngFor="let chart of dataToDisplay; let i = index">
+<div class="reports-container" *ngIf="!isLoading" fxLayout="row wrap" fxLayoutAlign="center stretch">
+    <h2 class="main-header" fxFlex="100%">Fogyasztás Történet</h2>
+    <mat-card class="report-card" fxShow fxHide.lt-lg *ngFor="let chart of dataToDisplay; let i = index" fxFlex="75%">
         <mat-card-header>
             <h3>{{chartTitles[i]}}</h3>
         </mat-card-header>
@@ -17,13 +17,11 @@
                 [xAxisLabel]="xAxisLabel"
                 [yAxisLabel]="yAxisLabel"
                 [timeline]="timeline"
-                [results]="chart"
-                (select)="onSelect($event)"
-                (activate)="onActivate($event)"
-                (deactivate)="onDeactivate($event)">
+                [results]="chart">
                 </ngx-charts-line-chart>
             </div>
         </mat-card-content>
         <mat-card-actions></mat-card-actions>
     </mat-card>
+    <p fxHide fxShow.lt-lg>A képernyő mérete túl kicsi a statisztika megjelenítéséhez. Kérlek, próbálkozz asztali számítógépről vagy laptopról, ha meg akarod tekinteni.</p>
 </div>

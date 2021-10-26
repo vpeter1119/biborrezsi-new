@@ -1,39 +1,35 @@
-<div class="container">
-    <div class="row">
-      <div class="col">
-        <div>
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                Kérlek, add meg a jelszót a folytatáshoz!
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
-                <mat-form-field class="">
-                  <!-- <mat-error *ngIf="wrongPassword">Helytelen jelszó!</mat-error>
-                  <mat-error *ngIf="password.invalid">Kérlek, írj be egy jelszót!</mat-error> -->
-                  <input 
-                  matInput
-                  placeholder="Jelszó"
-                  type="password"
-                  name="password"
-                  ngModel
-                  required
-                  autofocus
-                  #password="ngModel"
-                  [disabled]="isLoading">
-                </mat-form-field>
-                <br>
-                <button 
-                mat-raised-button
-                color="accent"
-                type="submit"
-                [disabled]="isLoading">Küldés</button>
-              </form>
-            </mat-card-content>          
-          </mat-card>
-        </div>
-      </div>    
-    </div>
+<div class="container" fxLayout="row">
+  <div>
+    <mat-card fxFlex="350px" fxFlex.lt-sm="100%">
+      <mat-card-header>
+        <mat-card-title>
+          Kérlek, add meg a jelszót a folytatáshoz!
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
+          <mat-form-field class="">
+            <mat-error *ngIf="password.invalid">Kérlek, írj be egy jelszót!</mat-error>
+            <input 
+            matInput
+            placeholder="Jelszó"
+            type="password"
+            name="password"
+            ngModel
+            required
+            autofocus
+            #password="ngModel"
+            autocomplete="new-password"
+            [disabled]="isLoading">
+          </mat-form-field>
+          <br>
+          <button 
+          mat-raised-button
+          color="accent"
+          type="submit"
+          [disabled]="isLoading">Küldés</button>
+        </form>
+      </mat-card-content>          
+    </mat-card>
   </div>
+</div>

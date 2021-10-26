@@ -39,7 +39,7 @@ export class StatisticsComponent implements OnInit {
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Hónap';
-  yAxisLabel: string = 'Óraállás';
+  yAxisLabel: string = 'Fogyasztás';
   timeline: boolean = true;
   colorSchemes: any[] = [{
     domain: ['#5C7AEA', '#FF0000']
@@ -135,18 +135,6 @@ export class StatisticsComponent implements OnInit {
   ngOnDestroy(): void {
     this.reportsSub.unsubscribe();
     this.loadingSub.unsubscribe();
-  }
-
-  onSelect(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: {entries: Array<any>, value: {name: string}}): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
 }

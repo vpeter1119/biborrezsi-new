@@ -7,164 +7,167 @@
     </button>
   </div>
   
-  <div class="container" *ngIf="authenticated">
-    <div class="row">
-      <div class="col">
-        <div>
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                Havi Óraállások
-              </mat-card-title>
-              <mat-card-subtitle *ngIf="!isLoading">Jelentési időszak: {{currentReportPeriod}}</mat-card-subtitle>
-              <mat-card-subtitle *ngIf="reportMode=='confirm'">
-                Kérlek, ellenőrizd a megadott adatokat!
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content *ngIf="reportMode=='input'">
-              <form [formGroup]="reportForm">
-                <mat-form-field class="">
-                  <input 
-                  matInput
-                  name="cold"
-                  placeholder="Hidegvíz"
-                  type="number"
-                  required
-                  min="0"
-                  max="100"
-                  step="0.01"
-                  autocomplete="off"
-                  formControlName="cold"
-                  autofocus
-                  [disabled]="isLoading">
-                </mat-form-field>
-                <button 
-                mat-mini-fab
-                color="primary"
-                class="button-prev"
-                (click)="applyPrevious('cold')"
-                [disabled]="isLoading"
-                matTooltip="Előző havi érték beírása">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>           
-                <mat-form-field class="">
-                  <input 
-                  matInput
-                  name="hot"
-                  placeholder="Melegvíz"
-                  type="number"
-                  required
-                  min="0"
-                  max="100"
-                  step="0.01"
-                  autocomplete="off"
-                  formControlName="hot"
-                  [disabled]="isLoading">                
-                </mat-form-field>
-                <button 
-                mat-mini-fab
-                color="primary"
-                class="button-prev"
-                (click)="applyPrevious('hot')"
-                [disabled]="isLoading"
-                matTooltip="Előző havi érték beírása">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>   
-                <mat-form-field class="">
-                  <input
-                  matInput
-                  name="heat"
-                  placeholder="Hőmennyiség"
-                  type="number"
-                  min="0"
-                  max="10000"
-                  autocomplete="off"
-                  formControlName="heat"
-                  [disabled]="isLoading">
-                </mat-form-field>
-                <button 
-                mat-mini-fab
-                color="primary"
-                class="button-prev"
-                (click)="applyPrevious('heat')"
-                [disabled]="isLoading"
-                matTooltip="Előző havi érték beírása">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>   
-                <!-- <span #tooltip="matTooltip" matTooltip="Ha változatlan, hagyd üresen, vagy írj be nullát!" (click)="tooltip.toggle()"> <mat-icon>info</mat-icon></span> -->
-                <mat-form-field class="">
-                  <input
-                  matInput
-                  name="elec"
-                  placeholder="Villanyóra"
-                  type="number"
-                  required
-                  min="0"
-                  max="10000"
-                  autocomplete="off"
-                  formControlName="elec"
-                  [disabled]="isLoading">
-                </mat-form-field>
-                <button 
-                mat-mini-fab
-                color="primary"
-                class="button-prev"
-                (click)="applyPrevious('elec')"
-                [disabled]="isLoading"
-                matTooltip="Előző havi érték beírása">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>   
-                <br>
-                <button 
-                mat-raised-button
-                color="accent"
-                class="button-send"
-                (click)="onSubmit()"
-                [disabled]="!reportForm.valid || isLoading">
-                  Tovább
-                </button>
-              </form>
-            </mat-card-content>
-            <mat-card-content *ngIf="reportMode=='confirm'">
-              <table class="confirm-table">
-                <tr>
-                  <td>Hidegvíz: {{ reportForm.value.cold }} (fogyasztás: {{ diffData.cold | number: '1.0-3' }})</td>
-                </tr>
-                <tr>
-                  <td>Melegvíz: {{ reportForm.value.hot }} (fogyasztás: {{ diffData.hot | number: '1.0-3' }})</td>
-                </tr>
-                <tr>
-                  <td>Hőmennyiség: {{ reportForm.value.heat }} (fogyasztás: {{ diffData.heat }})</td>
-                </tr>
-                <tr>
-                  <td>Villanyóra: {{ reportForm.value.elec }} (fogyasztás: {{ diffData.elec }})</td>
-                </tr>
-                <!-- some more rows for all the data -->
-              </table>
-            </mat-card-content>
-            <mat-card-content *ngIf="reportMode=='finished'">
-              <p>Óraállások elküldve!</p>
-              <p>A jóváhagyásról emailben értesítést fogsz kapni.</p>
-              <button mat-raised-button color="accent"
-              (click)="resetAll()">Vissza</button>
-            </mat-card-content>
-            <mat-card-actions *ngIf="reportMode=='confirm'">
-              <button
-              mat-raised-button
-              color="primary"
-              (click)="onReport()"
-              [disabled]="!diffIsValid || isLoading">
-                Küldés
-              </button>
-              <button 
-              mat-raised-button 
-              color="accent"
-              (click)="reportMode='input'"
-              [disabled]="isLoading">Szerkesztés</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </div>    
+  <div class="container" *ngIf="authenticated" fxLayout="row">
+    <div fxFlex="350px" fxFlex.lt-sm="100%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            Havi Óraállások
+          </mat-card-title>
+          <mat-card-subtitle *ngIf="!isLoading">Jelentési időszak: {{currentReportPeriod}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="reportMode=='confirm'">
+            Kérlek, ellenőrizd a megadott adatokat!
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content *ngIf="reportMode=='input'" fxLayout="column">
+          <form [formGroup]="reportForm">
+            <mat-form-field class="">
+              <input 
+              matInput
+              name="cold"
+              placeholder="Hidegvíz"
+              type="number"
+              required
+              min="0"
+              max="100"
+              step="0.01"
+              autocomplete="off"
+              formControlName="cold"
+              autofocus>
+            </mat-form-field>
+            <button 
+            mat-mini-fab
+            color="primary"
+            class="button-prev"
+            (click)="applyPrevious('cold')"
+            [disabled]="isLoading"
+            matTooltip="Előző havi érték beírása">
+              <mat-icon>arrow_back</mat-icon>
+            </button><br>
+            <mat-form-field class="">
+              <input 
+              matInput
+              name="hot"
+              placeholder="Melegvíz"
+              type="number"
+              required
+              min="0"
+              max="100"
+              step="0.01"
+              autocomplete="off"
+              formControlName="hot">                
+            </mat-form-field>
+            <button 
+            mat-mini-fab
+            color="primary"
+            class="button-prev"
+            (click)="applyPrevious('hot')"
+            [disabled]="isLoading"
+            matTooltip="Előző havi érték beírása">
+              <mat-icon>arrow_back</mat-icon>
+            </button><br>
+            <mat-form-field class="">
+              <input
+              matInput
+              name="heat"
+              placeholder="Hőmennyiség"
+              type="number"
+              min="0"
+              max="100000"
+              step="1"
+              autocomplete="off"
+              formControlName="heat">
+            </mat-form-field>
+            <button 
+            mat-mini-fab
+            color="primary"
+            class="button-prev"
+            (click)="applyPrevious('heat')"
+            [disabled]="isLoading"
+            matTooltip="Előző havi érték beírása">
+              <mat-icon>arrow_back</mat-icon>
+            </button><br>  
+            <!-- <span #tooltip="matTooltip" matTooltip="Ha változatlan, hagyd üresen, vagy írj be nullát!" (click)="tooltip.toggle()"> <mat-icon>info</mat-icon></span> -->
+            <mat-form-field class="">
+              <input
+              matInput
+              name="elec"
+              placeholder="Villanyóra"
+              type="number"
+              required
+              min="0"
+              max="10000"
+              autocomplete="off"
+              formControlName="elec">
+            </mat-form-field>
+            <button 
+            mat-mini-fab
+            color="primary"
+            class="button-prev"
+            (click)="applyPrevious('elec')"
+            [disabled]="isLoading"
+            matTooltip="Előző havi érték beírása">
+              <mat-icon>arrow_back</mat-icon>
+            </button><br>
+            <br>
+            <button 
+            mat-raised-button
+            color="accent"
+            class="button-send"
+            (click)="onSubmit()"
+            [disabled]="!reportForm.valid || isLoading">
+              Tovább
+            </button>
+          </form>
+        </mat-card-content>
+        <mat-card-content *ngIf="reportMode=='confirm'">
+          <table mat-table class="confirm-table" [dataSource]="dataSource" color="primary">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Mérő </th>
+              <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef> Állás </th>
+              <td mat-cell *matCellDef="let element"> {{ element.value | number: '1.0-3' }} </td>
+            </ng-container>
+
+            <!-- Diff Column -->
+            <ng-container matColumnDef="diff">
+              <th mat-header-cell *matHeaderCellDef> Fogyasztás </th>
+              <td mat-cell *matCellDef="let element"> {{ element.diff | number: '1.0-3' }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          </table>
+          <mat-error *ngIf="!diffIsValid">A fenti fogyasztási adatok érvénytelenek. Kérlek, ellenőrizd a bevitt óraállásokat, kattints a Szerkesztés gombra, majd javítsd a hibás adatokat!</mat-error>
+        </mat-card-content>
+        <mat-card-content *ngIf="reportMode=='finished'">
+          <p>Óraállások elküldve!</p>
+          <p>A jóváhagyásról emailben értesítést fogsz kapni.</p>
+          <button mat-raised-button color="accent"
+          (click)="resetAll()">Vissza</button>
+        </mat-card-content>
+        <mat-card-actions *ngIf="reportMode=='confirm'">
+          <button
+          mat-raised-button
+          color="primary"
+          (click)="onReport()"
+          [disabled]="!diffIsValid || isLoading">
+            Küldés
+          </button>
+          <button 
+          mat-raised-button 
+          color="accent"
+          (click)="reportMode='input'"
+          [disabled]="isLoading">Szerkesztés</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
   
