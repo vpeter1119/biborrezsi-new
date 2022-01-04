@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
+import { LoadingService } from '../common_services/loading.service';
 import { Report } from './report.model';
 
 @Injectable({
@@ -18,7 +20,9 @@ export class ReportService {
 
   constructor(
     private _http: HttpClient,
-    private _router: Router
+    private _router: Router,
+    private authService: AuthService,
+    private loadingService: LoadingService
   ) { }
 
   postReport(data: Report): void {
@@ -45,10 +49,32 @@ export class ReportService {
   getAllReports() {
     var url = this.apiUrl + 'reports';
     if (environment.debug) console.warn('Sending GET request to: ' + url);
-    this._http.get<Report[]>(url).subscribe(response => {
+    this._http.get<Report[]>(url, {observe: 'response'}).subscribe(response => {
       // TODO: error handling
-      this.previousReports = response;
-      this.previousReportsSubject.next([...this.previousReports]);
+      if (environment.debug) console.log('reportService -> getAllReports() response: ', response);
+      if (response.status == 200) {
+        if (response.body) {
+          this.previousReports = response.body;
+        } else {
+          this.previousReports = [];
+        }
+        this.previousReportsSubject.next([...this.previousReports]);
+      } else if (response.status == 401) {
+        this.authService.logout();
+      } else {
+        console.log(response);
+        alert(`${response.status}: ${response.statusText}`);
+      }
+    }, error => {
+      if (environment.debug) console.log('reportService -> getAllReports() error: ', error);
+      if (error.status == 401) {
+        this.loadingService.switchLoading(false);
+        this.authService.logout();
+      } else {
+        console.log(error);
+        alert(`${error.status}: ${error.message}`);
+      }
+      debugger;
     });
   }
 
